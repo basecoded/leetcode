@@ -29,13 +29,15 @@ TreeNode* DeleteNodesInRange(TreeNode *root, int start, int end) {
   TreeNode* left = DeleteNodesInRange(root->left, start, end);
   TreeNode* right = DeleteNodesInRange(root->right, start, end);
   if (root->val < start || root->val > end) {
+    TreeNode* tmp = root;
     if (root->left) {
       root = root->left;
     } else if (root->right) {
       root = root->right;
     } else {
-      return NULL;
+      root = NULL;
     }
+    delete tmp;
   } else {
     root->left = left;
     root->right = right;
