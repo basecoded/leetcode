@@ -24,44 +24,23 @@ TreeNode* Serialize(const string& str) {
   return Serialize(str, i);
 }
 
-TreeNode* new_root = NULL;
-
-void DeleteNodesInRangeHelper(TreeNode *root, TreeNode *parent,
-                              int start, int end) {
-  if (root == NULL)
-    return;
-  DeleteNodesInRangeHelper(root->left, root, start, end);
-  DeleteNodesInRangeHelper(root->right, root, start, end);
-  if (root->val < start) {
-    if (parent) {
-      if (parent->left == root)
-        parent->left = root->right;
-      else
-        parent->right = root->right;
-      new_root = parent;
-    } else {
-      new_root = root->right;
-    }
-    return;
-  }
-  if (root->val > end) {
-    if (parent) {
-      if (parent->left == root)
-        parent->left = root->left;
-      else
-        parent->right = root->left;
-      new_root = parent;
-    } else {
-      new_root = root->left;
-    }
-    return;
-  }
-}
-
 TreeNode* DeleteNodesInRange(TreeNode *root, int start, int end) {
-  TreeNode *parent = NULL;
-  DeleteNodesInRangeHelper(root, parent, start, end);
-  return new_root;
+  if (root == NULL) return root;
+  TreeNode* left = DeleteNodesInRange(root->left, start, end);
+  TreeNode* right = DeleteNodesInRange(root->right, start, end);
+  if (root->val < start || root->val > end) {
+    if (root->left) {
+      root = root->left;
+    } else if (root->right) {
+      root = root->right;
+    } else {
+      return NULL;
+    }
+  } else {
+    root->left = left;
+    root->right = right;
+  }
+  return root;
 }
 
 void print(TreeNode* root) {
@@ -73,7 +52,7 @@ void print(TreeNode* root) {
 }
 
 int main() {
-  string str = "21##3##";
+  string str = "731##4#5###";
   TreeNode* root = Serialize(str);
   root = DeleteNodesInRange(root, 3, 4);
   print(root);
