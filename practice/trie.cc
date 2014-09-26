@@ -54,12 +54,11 @@ class Trie {
     }
 };
 
-
 int main() {
-  vector<string> v{"cat", "cot", "cut", "cur", "cuthair"};
+  vector<string> v{"cati", "cota", "cutb", "cur", "cuthair"};
   Trie trie;
   for (const auto n : v)
     trie.insert(n);
-  trie.WildCharSearch("c.t", "", trie.root);
+  trie.WildCharSearch("c.t.", "", trie.root);
   return 0;
 }
