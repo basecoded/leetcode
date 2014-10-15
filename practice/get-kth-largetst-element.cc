@@ -1,19 +1,17 @@
 #include <iostream>
 #include <vector>
 
-int Partition(vector<int>& v, int low, int high) {
-  int start = low;
-  int pivot = v[low];
-  while (low < high) {
-    while (low < v.size() && v[low] >= pivot)
-      low++;
-    while (high >= 0 && v[high] < pivot)
-      high--;
-    if (low < high)
-      swap(v[low], v[high]);
+using namespace std;
+
+int Partition(vector<int>& v, int start, int end) {
+  int pivot = v[end];
+  int idx = start;
+  for (int i = start; i < end; i++) {
+    if (v[i] <= pivot)
+      swap(v[idx++], v[i]);
   }
-  swap(v[start], v[high]);
-  return high;
+  swap(v[idx], v[end]);
+  return idx;
 }
 
 int FindKthLarge(vector<int>& v, int low, int high, int k) {
@@ -30,7 +28,7 @@ int FindKthLarge(vector<int>& v, int low, int high, int k) {
 
 int main() {
   vector<int> v { 1,2,3,4,5 };
-  int k = 5;
-  cout << FindKthLarge(v, 0, v.size() - 1, k - 1) << endl;
+  for (int i = 1; i <= 5; i++)
+    cout << FindKthLarge(v, 0, v.size() - 1, i - 1) << endl;
   return 0;
 }
