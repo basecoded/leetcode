@@ -24,3 +24,24 @@ class Solution {
       }
     }
 };
+
+class Solution {
+  public:
+    vector<vector<int> > permute(vector<int> &num) {
+      vector<vector<int>> result;
+      genPermute(result, 0, num);
+      return result;
+    }
+
+    void genPermute(vector<vector<int>>& result, int layer, vector<int>& num) {
+      if (layer == num.size()) {
+        result.push_back(num);
+        return;
+      }
+      for (int i = layer; i < num.size(); i++) {
+        swap(num[i], num[layer]);
+        genPermute(result, layer + 1, num);
+        swap(num[i], num[layer]);
+      }
+    }
+};
