@@ -11,6 +11,9 @@ class Solution {
           a -= c;
         }
       }
-      return ((dividend^divisor) >> 31) ? (-result) : result;
+      bool is_negative = (dividend^divisor) >> 31;
+      if ((!is_negative && result > INT_MAX) || (is_negative && -result < INT_MIN))
+        return INT_MAX;
+      return is_negative ? (-result) : result;
     }
 };
