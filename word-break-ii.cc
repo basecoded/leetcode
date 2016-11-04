@@ -1,3 +1,33 @@
+// Nice solution. Use memory + DP
+class Solution {
+private:
+    unordered_map<string, vector<string>> cache;
+    void combine(vector<string>& combinations, const string& word) {
+        for (auto& c : combinations) {
+            c += " " + word;
+        }
+    }
+public:
+    vector<string> wordBreak(string s, unordered_set<string>& wordDict) {
+        if (cache.count(s))
+            return cache[s];
+        vector<string> combinations;
+        if (wordDict.count(s))
+            combinations.push_back(s);
+        for (int i = 1; i < s.size(); i++) {
+            string word = s.substr(i);
+            if (wordDict.count(word)) {
+                string pre_str = s.substr(0, i);
+                vector<string> pre_com = wordBreak(pre_str, wordDict);
+                combine(pre_com, word);
+                combinations.insert(combinations.end(), pre_com.begin(), pre_com.end());
+            }
+        }
+        cache[s] = combinations;
+        return combinations;
+    }
+};
+
 class Solution {
   public:
     vector<string> wordBreak(string s, unordered_set<string> &dict) {
